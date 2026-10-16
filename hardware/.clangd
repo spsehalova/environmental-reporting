@@ -1,0 +1,30 @@
+CompileFlags:
+  Remove:
+    - -mlongcalls
+    - -mtext-section-literals
+    - -fstrict-volatile-bitfields
+    - -fno-tree-switch-conversion
+    - -freorder-blocks
+  Add:
+    - --target=xtensa-esp32s3-elf
+    - -D__XTENSA__
+    - -Wno-unknown-warning-option
+    - -nostdinc
+    - -nostdinc++
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/xtensa-esp32s3-elf/include/c++/8.4.0
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/xtensa-esp32s3-elf/include/c++/8.4.0/xtensa-esp32s3-elf
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/xtensa-esp32s3-elf/include/c++/8.4.0/backward
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/lib/gcc/xtensa-esp32s3-elf/8.4.0/include
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/lib/gcc/xtensa-esp32s3-elf/8.4.0/include-fixed
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/xtensa-esp32s3-elf/sys-include
+    - -isystem
+    - /Users/0charliecat/.platformio/packages/toolchain-xtensa-esp32s3/xtensa-esp32s3-elf/include
+Diagnostics:
+  UnusedIncludes: None
+  MissingIncludes: None

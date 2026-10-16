@@ -1,0 +1,7 @@
+.pio/
+src/secrets.h
+.cache
+main.d
+compile_commands.json
+CLAUDE.md
+README-old.md

@@ -1,0 +1,20 @@
+CREATE TABLE `measurements` (
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`timestamp` text NOT NULL,
+	`temperature` real,
+	`humidity` real,
+	`pressure_hpa` real,
+	`iaq` real,
+	`iaq_accuracy` integer,
+	`eco2_ppm` real,
+	`bvoc_ppm` real,
+	`warming_up` integer,
+	`lux` real,
+	`noise_db_rel` real,
+	`dust_mgm3` real,
+	`nearby_devices` integer,
+	`dew_point_c` real,
+	`abs_humidity_gm3` real,
+	`mold_risk_index` real,
+	`heat_index_c` real
+);

@@ -1,0 +1,61 @@
+import { sql } from "drizzle-orm";
+import { check, sqliteTable, text, integer, real, index } from "drizzle-orm/sqlite-core";
+
+export const measurements = sqliteTable(
+	"measurements",
+	{
+		id: integer("id").primaryKey({ autoIncrement: true }),
+		room: text("room").notNull(),
+		timestamp: integer("timestamp", { mode: "timestamp_ms" }).notNull(),
+		temperature: real("temperature"),
+		humidity: real("humidity"),
+		pressureHpa: real("pressure_hpa"),
+		iaq: real("iaq"),
+		staticIaq: real("static_iaq"),
+		iaqAccuracy: integer("iaq_accuracy"),
+		eco2Ppm: real("eco2_ppm"),
+		bvocPpm: real("bvoc_ppm"),
+		compensatedGasOhm: real("compensated_gas_ohm"),
+		gasPercentage: real("gas_percentage"),
+		warmingUp: integer("warming_up", { mode: "boolean" }),
+		lux: real("lux"),
+		noiseDbRel: real("noise_db_rel"),
+		dustMgm3: real("dust_mgm3"),
+		nearbyDevices: integer("nearby_devices"),
+		dewPointC: real("dew_point_c"),
+		absHumidityGm3: real("abs_humidity_gm3"),
+		moldRiskIndex: integer("mold_risk_index"),
+		heatIndexC: real("heat_index_c"),
+	},
+	() => [
+		check("temperature_range", sql`${sql.raw("temperature")} IS NULL OR ${sql.raw("temperature")} >= 0`),
+		check("humidity_range", sql`${sql.raw("humidity")} IS NULL OR ${sql.raw("humidity")} >= 0`),
+		check("pressure_hpa_range", sql`${sql.raw("pressure_hpa")} IS NULL OR ${sql.raw("pressure_hpa")} >= 0`),
+		check("iaq_range", sql`${sql.raw("iaq")} IS NULL OR (${sql.raw("iaq")} BETWEEN 0 AND 500)`),
+		check(
+			"iaq_accuracy_range",
+			sql`${sql.raw("iaq_accuracy")} IS NULL OR (${sql.raw("iaq_accuracy")} BETWEEN 0 AND 3)`,
+		),
+		check("eco2_ppm_range", sql`${sql.raw("eco2_ppm")} IS NULL OR ${sql.raw("eco2_ppm")} >= 0`),
+		check("bvoc_ppm_range", sql`${sql.raw("bvoc_ppm")} IS NULL OR ${sql.raw("bvoc_ppm")} >= 0`),
+		check("lux_range", sql`${sql.raw("lux")} IS NULL OR ${sql.raw("lux")} >= 0`),
+		check("noise_db_rel_range", sql`${sql.raw("noise_db_rel")} IS NULL OR ${sql.raw("noise_db_rel")} >= 0`),
+		check("dust_mgm3_range", sql`${sql.raw("dust_mgm3")} IS NULL OR ${sql.raw("dust_mgm3")} >= 0`),
+		check(
+			"nearby_devices_range",
+			sql`${sql.raw("nearby_devices")} IS NULL OR ${sql.raw("nearby_devices")} >= 0`,
+		),
+		check("dew_point_c_range", sql`${sql.raw("dew_point_c")} IS NULL OR ${sql.raw("dew_point_c")} >= 0`),
+		check(
+			"abs_humidity_gm3_range",
+			sql`${sql.raw("abs_humidity_gm3")} IS NULL OR ${sql.raw("abs_humidity_gm3")} >= 0`,
+		),
+		check(
+			"mold_risk_index_range",
+			sql`${sql.raw("mold_risk_index")} IS NULL OR (${sql.raw("mold_risk_index")} BETWEEN -1 AND 3)`,
+		),
+		check("heat_index_c_range", sql`${sql.raw("heat_index_c")} IS NULL OR ${sql.raw("heat_index_c")} >= 0`),
+		index("room"),
+		index("timestamp")
+	],
+);
