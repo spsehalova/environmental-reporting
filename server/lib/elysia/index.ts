@@ -11,9 +11,11 @@ import {
 } from "./measurementFilter";
 import { openapi } from "@elysia/openapi";
 import z from "zod";
+import cors from "@elysia/cors";
 
 export const elysiaApp = new Elysia()
 	.use(openapi()) 
+	.use(cors())
 	.get("/", () => {
 		let returning: { [roomName: string]: DeviceProperty } = {}
 		for (const [roomName, device] of DeviceManager.devices.entries()) {
