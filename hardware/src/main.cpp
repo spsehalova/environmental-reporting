@@ -107,7 +107,7 @@ void loop() {
 
 	unsigned long now = millis();
 	static unsigned long lastDebugPrintMs = 0;
-	if (lastDebugPrintMs == 0 || now - lastDebugPrintMs >= DEBUG_PRINT_INTERVAL_MS) {
+	if ((lastDebugPrintMs == 0 || now - lastDebugPrintMs >= DEBUG_PRINT_INTERVAL_MS) && Serial) {
 		lastDebugPrintMs = now;
 		Serial.printf("Temp: %.2f °C, Humidity: %.2f %%, Pressure: %.2f hPa, IAQ: %.2f (accr %d), eCO2: %.2f ppm, BVOC: %.2f ppm, Lux: %.2f, Noise: %.2f dB rel, Dust: %.2f mg/m3, Nearby devices: %d\n",
 					  bsecEnv.temperature, bsecEnv.humidity, bsecEnv.pressure,

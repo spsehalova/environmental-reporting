@@ -159,6 +159,11 @@ export class DeviceManagerHolder {
 			_data: parsed.data,
 		};
 
+		if (this._devices.has(roomName)) {
+			const existing = this._devices.get(roomName)!;
+			property.latestMeasurement = existing.latestMeasurement;
+		}
+
 		this._devices.set(roomName, property);
 		return property;
 	}
