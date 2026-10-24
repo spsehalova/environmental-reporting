@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    @apply text-[rgba(255,255,255,1)] bg-[#fff] font-sans;
+  }
+
+  body {
+    @apply grid place-items-center min-w-[320px] min-h-screen relative m-0;
+  }
+}
+
+.nice-backgound {
+	background-image: url(relax-zona.jpg);
+	background-size: cover;
+	transition: filter 1s ease;
+}
