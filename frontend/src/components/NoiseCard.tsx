@@ -44,7 +44,7 @@ export function NoiseCard({ measurement }: NoiseCardProps) {
 		noiseDb != null ? Math.round((Math.min(Math.max(noiseDb, 0), NOISE_MAX_DB) / NOISE_MAX_DB) * BARS.length) : 0;
 
 	return (
-		<div className="w-44 h-44 rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={volumeIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Hluk</span>
@@ -53,7 +53,7 @@ export function NoiseCard({ measurement }: NoiseCardProps) {
 						className={`ml-auto flex items-center gap-1 text-xs font-semibold ${isLoud ? "text-yellow-300" : "text-green-400"}`}
 					>
 						{isLoud ? <Icon src={alertTriangleIcon} className="size-3.5" /> : <Icon src={checkmarkCircleIcon} className="size-3.5" />}
-						{isLoud ? "Loud" : "OK"}
+						{isLoud ? "Hluk" : "OK"}
 					</div>
 				)}
 			</div>

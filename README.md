@@ -25,3 +25,5 @@ Enviromentalne merania
 
 
 maybe https://www.soselectronic.com/sk-sk/products/sensirion/sen69c-sin-t-506264
+https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf
+https://cdn.soselectronic.com/productdata/91/1d/f677fd87/sen65-sin-t.pdf

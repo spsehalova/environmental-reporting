@@ -33,7 +33,7 @@ export function PressureCard({ measurement }: PressureCardProps) {
 	const tickRotation = targetAngle - DEFAULT_TICK_ANGLE;
 
 	return (
-		<div className="w-44 h-44 rounded-3xl p-4 flex flex-col items-center bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col items-center bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60 self-start">
 				<Icon src={rosetteAsteriskIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Tlak</span>

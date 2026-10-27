@@ -42,7 +42,7 @@ export function DevicesCard({ measurement }: DevicesCardProps) {
 	const id = useId();
 
 	return (
-		<div className="relative w-44 h-44 rounded-3xl p-4 flex flex-col overflow-hidden bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="relative w-full aspect-square rounded-3xl p-4 flex flex-col overflow-hidden bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={devicesIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Zariadenia</span>

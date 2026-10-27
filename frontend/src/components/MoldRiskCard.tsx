@@ -31,17 +31,17 @@ export function MoldRiskCard({ measurement }: MoldRiskCardProps) {
 	const level = RISK_LEVELS[levelIndex] ?? RISK_LEVELS[0]!;
 
 	return (
-		<div className="w-44 h-44 rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={moldIcon} className="size-4" />
-				<span className="text-xs font-semibold uppercase tracking-wide">Plesen</span>
+				<span className="text-xs font-semibold uppercase tracking-wide">Pleseň</span>
 			</div>
 
 			<div>
 				<p className="text-2xl font-medium font-mono leading-none">
 					{moldRiskIndex != null ? moldRiskIndex : "--"}
 				</p>
-				<p className="text-2xl truncate">{moldRiskIndex != null ? level.label : "Unknown"}</p>
+				<p className="text-2xl truncate">{moldRiskIndex != null ? level.label : "Neznáme"}</p>
 			</div>
 
 			<svg viewBox="0 0 132 7" className="w-full shrink-0" fill="none">
@@ -59,7 +59,7 @@ export function MoldRiskCard({ measurement }: MoldRiskCardProps) {
 			</svg>
 
 			<div className="flex items-center justify-between text-xs">
-				<span className="text-white/60">Rosny bod</span>
+				<span className="text-white/60">Rosný bod</span>
 				<span className="font-semibold font-mono">{dewPointC != null ? Math.round(dewPointC) : "--"}°</span>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 interface IconProps {
 	src: string;
 	className?: string;
+	style?: React.CSSProperties;
 }
 
 /**
@@ -9,11 +10,12 @@ interface IconProps {
  * a `background-color: currentColor` div recolors them via normal Tailwind
  * text-color classes instead.
  */
-export function Icon({ src, className }: IconProps) {
+export function Icon({ src, className, style }: IconProps) {
 	return (
 		<span
 			className={className}
 			style={{
+				...style,
 				display: "inline-block",
 				backgroundColor: "currentColor",
 				WebkitMaskImage: `url(${src})`,

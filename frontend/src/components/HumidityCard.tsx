@@ -13,10 +13,10 @@ export function HumidityCard({ measurement }: IaqCardProps) {
 	const absoluteHumidity = measurement.absHumidityGm3 ?? null;
 
 	return (
-		<div className="w-44 h-44 rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={rippleDropletIcon} className="size-4" />
-				<span className="text-xs font-semibold uppercase tracking-wide">Vlhkost</span>
+				<span className="text-xs font-semibold uppercase tracking-wide">Vlhkosť</span>
 				{/*{measurement.warmingUp && <Icon src={alertTriangleIcon} className="size-4 text-yellow-300 ml-auto" />}*/}
 			</div>
 
@@ -29,7 +29,7 @@ export function HumidityCard({ measurement }: IaqCardProps) {
 
 			<div className="flex flex-col gap-1 text-xs">
 				<div className="flex items-center justify-between text-xs">
-					<span className="text-white/60 ">Rosny bod</span>
+					<span className="text-white/60 ">Rosný bod</span>
 					<span className="font-semibold font-mono">{dewPointC != null ? Math.round(dewPointC) : "--"}°</span>
 				</div>
 				<div className="flex items-center justify-between text-xs">

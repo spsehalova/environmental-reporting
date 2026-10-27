@@ -3,21 +3,23 @@ export interface IaqCategory {
 	shortLabel: string;
 	min: number;
 	max: number;
+	color: string;
 }
 
 /**
- * IAQ (0-500) bucketed onto the same bands/labels as the US EPA AQI scale,
- * since that's the label set + color ramp this card's design is based on.
- * shortLabel exists because "Unhealthy for Sensitive Groups" doesn't fit a
- * small card without wrapping or truncating mid-word.
+ * IAQ (0-500) bucketed per the Bosch BSEC IAQ index reference table
+ * (Excellent/Good/Lightly.../Extremely polluted, with breakpoints at
+ * 50/100/150/200/250/350). shortLabel exists because the full adjective +
+ * "znečistené" phrasing doesn't fit a small card without wrapping.
  */
 export const IAQ_CATEGORIES: IaqCategory[] = [
-	{ label: "Good", shortLabel: "Good", min: 0, max: 50 },
-	{ label: "Moderate", shortLabel: "Moderate", min: 50, max: 100 },
-	{ label: "Unhealthy for Sensitive Groups", shortLabel: "Sensitive", min: 100, max: 150 },
-	{ label: "Unhealthy", shortLabel: "Unhealthy", min: 150, max: 200 },
-	{ label: "Very Unhealthy", shortLabel: "Very unhealthy", min: 200, max: 300 },
-	{ label: "Hazardous", shortLabel: "Hazardous", min: 300, max: 500 },
+	{ label: "Výborné", shortLabel: "Výborné", min: 0, max: 50, color: "#4792F2" },
+	{ label: "Dobré", shortLabel: "Dobré", min: 50, max: 100, color: "#5DC89B" },
+	{ label: "Mierne znečistené", shortLabel: "Mierne", min: 100, max: 150, color: "#99DF6D" },
+	{ label: "Stredne znečistené", shortLabel: "Stredne", min: 150, max: 200, color: "#EAE656" },
+	{ label: "Silne znečistené", shortLabel: "Silne", min: 200, max: 250, color: "#EFA253" },
+	{ label: "Veľmi znečistené", shortLabel: "Veľmi", min: 250, max: 350, color: "#E85252" },
+	{ label: "Extrémne znečistené", shortLabel: "Extrémne", min: 350, max: 500, color: "#B22E41" },
 ];
 
 export function getIaqCategory(iaq: number | null | undefined): IaqCategory | null {

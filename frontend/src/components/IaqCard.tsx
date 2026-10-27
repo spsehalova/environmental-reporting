@@ -1,5 +1,6 @@
 import grainIcon from "../icons/grain.svg";
 import alertTriangleIcon from "../icons/alert-triangle.svg";
+import circleIcon from "../icons/circle.svg";
 import { getIaqCategory, getIaqPercent } from "../lib/iaq";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
@@ -15,11 +16,14 @@ export function IaqCard({ measurement }: IaqCardProps) {
 	const percent = getIaqPercent(iaq);
 
 	return (
-		<div className="w-44 h-44 rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={grainIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">IAQ</span>
-				{measurement.warmingUp && <Icon src={alertTriangleIcon} className="size-4 text-yellow-300 ml-auto" />}
+				{measurement.warmingUp
+					? <Icon src={alertTriangleIcon} className="size-4 text-yellow-300 ml-auto" />
+					: <Icon src={circleIcon} className="size-4 ml-auto" style={{ color: category?.color }} />
+				}
 			</div>
 
 			<div>
@@ -27,7 +31,7 @@ export function IaqCard({ measurement }: IaqCardProps) {
 				<p className="text-2xl truncate font-light">{category?.shortLabel ?? "Unknown"}</p>
 			</div>
 
-			<div className="relative h-1 shrink-0 rounded-full bg-[linear-gradient(90deg,#4792F2_0%,#65DB7C_13.62%,#F5E753_31.32%,#E63A52_53.02%,#75212D_90%)]">
+			<div className="relative h-1 shrink-0 rounded-full bg-[linear-gradient(90deg,#4792F2_0%,#5DC89B_10%,#99DF6D_20%,#EAE656_30%,#EFA253_40%,#E85252_50%,#B22E41_70%,#75212D_100%)]">
 				<div
 					className="absolute top-1/2 flex flex-col items-center -translate-y-1/2 -translate-x-1/2"
 					style={{ left: `${percent}%` }}

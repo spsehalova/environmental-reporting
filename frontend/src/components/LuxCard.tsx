@@ -55,7 +55,7 @@ export function LuxCard({ measurement }: LuxCardProps) {
 	const highlightPoints = wavePoints.filter(([x]) => x >= highlightStartX);
 
 	return (
-		<div className="w-44 h-44 rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={brightnessUpIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Lux</span>
