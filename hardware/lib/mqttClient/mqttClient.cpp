@@ -8,13 +8,14 @@
 #include <esp_system.h>
 #include "pm25.h"
 #include "computedReadings.h"
+#include "sen63cHandling.h"
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
 
 void setupMQTT(const char *broker, uint16_t port) {
 	mqttClient.setServer(broker, port);
-	mqttClient.setBufferSize(512); // our payload is bigger than the default size
+	mqttClient.setBufferSize(768); // our payload is bigger than the default size
 }
 
 String buildMqttTopic(const char *prefix, const char *stationId, const char *type) {
@@ -48,9 +49,8 @@ bool mqttEnsureConnected(const char *clientId, const char *user, const char *pas
 }
 
 void publishSensorData(const char *topic) {
-	float dust = readDustDensity();
 	Serial.printf("Publishing sensor data to MQTT topic '%s'...\n", topic);
-	StaticJsonDocument<512> doc;
+	StaticJsonDocument<768> doc;
 	doc["temperature"] = bsecEnv.temperature;
 	doc["humidity"] = bsecEnv.humidity;
 	doc["pressure_hpa"] = bsecEnv.pressure;
@@ -64,7 +64,11 @@ void publishSensorData(const char *topic) {
 	doc["warming_up"] = bsecWarmup;
 	doc["lux"] = getLuxReading();
 	doc["noise_db_rel"] = readNoiseLevel();
-	doc["dust_mgm3"] = dust;
+	doc["pm1_0_ugm3"] = sen63cReadings.pm1_0;
+	doc["pm2_5_ugm3"] = sen63cReadings.pm2_5;
+	doc["pm4_0_ugm3"] = sen63cReadings.pm4_0;
+	doc["pm10_0_ugm3"] = sen63cReadings.pm10_0;
+	doc["co2_ppm"] = sen63cReadings.co2;
 	doc["nearby_devices"] = getNearbyDeviceCount();
 	doc["dew_point_c"] = computeDewPoint(bsecEnv.temperature, bsecEnv.humidity);
 	doc["abs_humidity_gm3"] =
@@ -72,7 +76,7 @@ void publishSensorData(const char *topic) {
 	doc["mold_risk_index"] = computeMoldRiskIndex(bsecEnv.temperature, doc["dew_point_c"]);
 	doc["heat_index_c"] = computeHeatIndexC(bsecEnv.temperature, bsecEnv.humidity);
 
-	char payload[512];
+	char payload[768];
 	size_t len = serializeJson(doc, payload);
 
 	bool sent = mqttClient.publish(topic, payload, len);

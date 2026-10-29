@@ -1,0 +1,1 @@
+ALTER TABLE `measurements` RENAME COLUMN "pm1_2_ugm3" TO "pm10_0_ugm3";

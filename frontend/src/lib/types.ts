@@ -13,6 +13,10 @@ export interface LatestMeasurement {
 	lux?: number | null;
 	noiseDbRel?: number | null;
 	dustMgm3?: number | null;
+	pm10Ugm3?: number | null;
+	pm25Ugm3?: number | null;
+	pm40Ugm3?: number | null;
+	pm100Ugm3?: number | null;
 	nearbyDevices?: number | null;
 	dewPointC?: number | null;
 	absHumidityGm3?: number | null;

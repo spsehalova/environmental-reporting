@@ -9,7 +9,7 @@ interface IaqCardProps {
 }
 
 export function CO2Card({ measurement }: IaqCardProps) {
-	const co2ppm = measurement.eco2Ppm ?? null;
+	const co2ppm = measurement.co2Ppm ?? null;
 	const eco2ppm = measurement.eco2Ppm ?? null;
 
 	return (
@@ -17,7 +17,7 @@ export function CO2Card({ measurement }: IaqCardProps) {
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={filterIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">CO2</span>
-				{measurement.warmingUp && <Icon src={alertTriangleIcon} className="size-4 text-yellow-300 ml-auto" />}
+				{/*{measurement.warmingUp && <Icon src={alertTriangleIcon} className="size-4 text-yellow-300 ml-auto" />}*/}
 			</div>
 
 			<div>

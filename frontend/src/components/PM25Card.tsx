@@ -8,7 +8,7 @@ interface IaqCardProps {
 }
 
 export function PM25Card({ measurement }: IaqCardProps) {
-	const pm25mgm3 = measurement.dustMgm3 ?? null;
+	const pm25mgm3 = measurement.pm25Ugm3 ?? null;
 
 	return (
 		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
@@ -22,7 +22,7 @@ export function PM25Card({ measurement }: IaqCardProps) {
 				<p className="text-4xl font-medium font-mono leading-none">
 					{pm25mgm3 != null ? pm25mgm3.toFixed(3).replace("0.", ".").replace("0,", ",") : "--"}
 				</p>
-				<p className="text-2xl truncate font-light">mg/m³</p>
+				<p className="text-2xl truncate font-light">µg/m³</p>
 			</div>
 
 			<div className="flex items-center justify-between text-xs">

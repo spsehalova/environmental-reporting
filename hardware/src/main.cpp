@@ -23,6 +23,7 @@
 #include "pins.h"
 #include "pm25.h"
 #include "secrets.h"
+#include "sen63cHandling.h"
 #include "statusLed.h"
 #include <esp_system.h>
 
@@ -47,6 +48,7 @@ void setup() {
 	setupBSEC();
 	setupBLE();
 	setupDustSensor();
+	setupSEN63C();
 
 	// Connecting to a Wi-Fi network
 	WiFi.begin(ssid, password);
@@ -81,6 +83,7 @@ void loop() {
 	if (!bsecInitFailed) {
 		bsec.run();
 	}
+	readSEN63C();
 	updateBLEScan();
 
 	String clientId = "env-" + WiFi.macAddress();
@@ -109,10 +112,12 @@ void loop() {
 	static unsigned long lastDebugPrintMs = 0;
 	if ((lastDebugPrintMs == 0 || now - lastDebugPrintMs >= DEBUG_PRINT_INTERVAL_MS) && Serial) {
 		lastDebugPrintMs = now;
-		Serial.printf("Temp: %.2f °C, Humidity: %.2f %%, Pressure: %.2f hPa, IAQ: %.2f (accr %d), eCO2: %.2f ppm, BVOC: %.2f ppm, Lux: %.2f, Noise: %.2f dB rel, Dust: %.2f mg/m3, Nearby devices: %d\n",
+		Serial.printf("Temp: %.2f °C, Humidity: %.2f %%, Pressure: %.2f hPa, IAQ: %.2f (accr %d), eCO2: %.2f ppm, BVOC: %.2f ppm, Lux: %.2f, Noise: %.2f dB rel, Dust: %.2f mg/m3, PM1.0: %.2f, PM2.5: %.2f, PM4.0: %.2f, PM10.0: %.2f ug/m3, CO2: %.0f ppm, Nearby devices: %d\n",
 					  bsecEnv.temperature, bsecEnv.humidity, bsecEnv.pressure,
 					  bsecEnv.iaq, bsecEnv.iaqAccuracy, bsecEnv.eco2, bsecEnv.bvoc, getLuxReading(),
-					  readNoiseLevel(), readDustDensity(), getNearbyDeviceCount());
+					  readNoiseLevel(), readDustDensity(),
+					  sen63cReadings.pm1_0, sen63cReadings.pm2_5, sen63cReadings.pm4_0, sen63cReadings.pm10_0,
+					  sen63cReadings.co2, getNearbyDeviceCount());
 	}
 
 	if (!mqttReady)

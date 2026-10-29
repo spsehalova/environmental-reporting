@@ -59,6 +59,10 @@ export function DevicePanel({ device }: DevicePanelProps) {
 					<div className="gradient"></div>
 				</div>
 
+				<div className="absolute inset-0 z-50">
+					<span>swjhdswhwfdwf</span>
+				</div>
+
 				<div className="flex flex-col justify-center content-center p-6 sm:p-8 text-center gap-2 sm:gap-3 z-100 text-shadow-lg tempback">
 					<p className="text-2xl sm:text-3xl">{device.roomName}</p>
 					<p className="text-7xl sm:text-8xl lg:text-9xl">{measurement.temperature?.toFixed(0)}°</p>

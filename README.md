@@ -25,5 +25,10 @@ Enviromentalne merania
 
 
 maybe https://www.soselectronic.com/sk-sk/products/sensirion/sen69c-sin-t-506264
-https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf
-https://cdn.soselectronic.com/productdata/91/1d/f677fd87/sen65-sin-t.pdf
+
+- https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf
+- https://cdn.soselectronic.com/productdata/91/1d/f677fd87/sen65-sin-t.pdf
+- https://siov.sk/wp-content/uploads/2026/08/Metodika-CEOVP-aktualizacia-4-2026-i.pdf (s. 67)
+- http://siov.sk/wp-content/uploads/2026/05/Strategia-kvality-1.zip - halova s. 84
+- https://www.sos.sk/a_info/resource/c/sensirion/Sensirion_Humidity_at_a_Glance_V1.pdf
+- https://github.com/Sensirion/arduino-i2c-sen63c

@@ -1,0 +1,280 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "d75be30d-2cd2-401c-8688-70b27af3a71f",
+  "prevId": "3df78ad2-54ed-4241-8142-34066b62a318",
+  "tables": {
+    "measurements": {
+      "name": "measurements",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "room": {
+          "name": "room",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "timestamp": {
+          "name": "timestamp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "temperature": {
+          "name": "temperature",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "humidity": {
+          "name": "humidity",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pressure_hpa": {
+          "name": "pressure_hpa",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "iaq": {
+          "name": "iaq",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "static_iaq": {
+          "name": "static_iaq",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "iaq_accuracy": {
+          "name": "iaq_accuracy",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "eco2_ppm": {
+          "name": "eco2_ppm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "bvoc_ppm": {
+          "name": "bvoc_ppm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "compensated_gas_ohm": {
+          "name": "compensated_gas_ohm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "gas_percentage": {
+          "name": "gas_percentage",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "warming_up": {
+          "name": "warming_up",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "lux": {
+          "name": "lux",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "noise_db_rel": {
+          "name": "noise_db_rel",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dust_mgm3": {
+          "name": "dust_mgm3",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pm10_0_ugm3": {
+          "name": "pm10_0_ugm3",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pm2_5_ugm3": {
+          "name": "pm2_5_ugm3",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pm4_0_ugm3": {
+          "name": "pm4_0_ugm3",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pm10_ugm3": {
+          "name": "pm10_ugm3",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "co2_ppm": {
+          "name": "co2_ppm",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "nearby_devices": {
+          "name": "nearby_devices",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dew_point_c": {
+          "name": "dew_point_c",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "abs_humidity_gm3": {
+          "name": "abs_humidity_gm3",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "mold_risk_index": {
+          "name": "mold_risk_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "heat_index_c": {
+          "name": "heat_index_c",
+          "type": "real",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "temperature_range": {
+          "name": "temperature_range",
+          "value": "temperature IS NULL OR temperature >= 0"
+        },
+        "humidity_range": {
+          "name": "humidity_range",
+          "value": "humidity IS NULL OR humidity >= 0"
+        },
+        "pressure_hpa_range": {
+          "name": "pressure_hpa_range",
+          "value": "pressure_hpa IS NULL OR pressure_hpa >= 0"
+        },
+        "iaq_range": {
+          "name": "iaq_range",
+          "value": "iaq IS NULL OR (iaq BETWEEN 0 AND 500)"
+        },
+        "iaq_accuracy_range": {
+          "name": "iaq_accuracy_range",
+          "value": "iaq_accuracy IS NULL OR (iaq_accuracy BETWEEN 0 AND 3)"
+        },
+        "eco2_ppm_range": {
+          "name": "eco2_ppm_range",
+          "value": "eco2_ppm IS NULL OR eco2_ppm >= 0"
+        },
+        "bvoc_ppm_range": {
+          "name": "bvoc_ppm_range",
+          "value": "bvoc_ppm IS NULL OR bvoc_ppm >= 0"
+        },
+        "lux_range": {
+          "name": "lux_range",
+          "value": "lux IS NULL OR lux >= 0"
+        },
+        "noise_db_rel_range": {
+          "name": "noise_db_rel_range",
+          "value": "noise_db_rel IS NULL OR noise_db_rel >= 0"
+        },
+        "dust_mgm3_range": {
+          "name": "dust_mgm3_range",
+          "value": "dust_mgm3 IS NULL OR dust_mgm3 >= 0"
+        },
+        "nearby_devices_range": {
+          "name": "nearby_devices_range",
+          "value": "nearby_devices IS NULL OR nearby_devices >= 0"
+        },
+        "dew_point_c_range": {
+          "name": "dew_point_c_range",
+          "value": "dew_point_c IS NULL OR dew_point_c >= 0"
+        },
+        "abs_humidity_gm3_range": {
+          "name": "abs_humidity_gm3_range",
+          "value": "abs_humidity_gm3 IS NULL OR abs_humidity_gm3 >= 0"
+        },
+        "mold_risk_index_range": {
+          "name": "mold_risk_index_range",
+          "value": "mold_risk_index IS NULL OR (mold_risk_index BETWEEN -1 AND 3)"
+        },
+        "heat_index_c_range": {
+          "name": "heat_index_c_range",
+          "value": "heat_index_c IS NULL OR heat_index_c >= 0"
+        }
+      }
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {
+      "\"measurements\".\"pm1_2_ugm3\"": "\"measurements\".\"pm10_0_ugm3\""
+    }
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
