@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./index.css";
 import type { DeviceProperty } from "./lib/types";
 import { DevicePanel } from "./components/DevicePanel";
+import { CsvExportModal } from "./components/CsvExportModal";
 
 const DEVICES_ENDPOINT = "http://localhost:8080/";
 const DEVICES_POLL_INTERVAL_MS = 60 * 1000;
@@ -9,6 +10,7 @@ const DEVICES_POLL_INTERVAL_MS = 60 * 1000;
 export function App() {
 	const [devices, setDevices] = useState<Record<string, DeviceProperty>>({});
 	const [zoomFactor, setZoomFactor] = useState(1);
+	const [csvModalOpen, setCsvModalOpen] = useState(false);
 
 	useEffect(() => {
 		const zoom = Number(new URLSearchParams(window.location.search).get("zoom"));
@@ -54,6 +56,21 @@ export function App() {
 			{Object.entries(devices).map(([slug, device]) => (
 				<DevicePanel key={slug} device={device} />
 			))}
+			{Object.keys(devices).length === 0 && (
+				<span className="m-auto text-white/60 text-lg font-semibold">Žiadne zariadenia</span>
+			)}
+
+			<button
+				type="button"
+				onClick={() => setCsvModalOpen(true)}
+				className="fixed bottom-4 left-1/2 z-100 -translate-x-1/2 rounded-full bg-mist-900/60 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-xl hover:bg-mist-900/80"
+			>
+				Stiahnuť CSV
+			</button>
+
+			{csvModalOpen && (
+				<CsvExportModal roomNames={Object.keys(devices)} onClose={() => setCsvModalOpen(false)} />
+			)}
 		</div>
 	);
 }

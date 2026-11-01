@@ -147,8 +147,11 @@ export const elysiaApp = new Elysia()
 	.get("/day/:roomName/:variable", async ({ params, query, set }) => {
 		const { roomName, variable } = params;
 
-		const day = query.date ?? new Date().toISOString().slice(0, 10);
-		const dayStart = new Date(`${day}T00:00:00.000Z`);
+		const dayStart = new Date(query.date ?? Date.now());
+		dayStart.setHours(0)
+		dayStart.setMinutes(0)
+		dayStart.setSeconds(0)
+		dayStart.setMilliseconds(0)
 		const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000);
 
 		try {

@@ -115,6 +115,10 @@ export function LuxCard({ measurement, roomName }: LuxCardProps) {
 					value={lux != null ? Math.round(lux).toString() : "--"}
 					unit="lx"
 					onClose={() => setModalOpen(false)}
+					gradientStops={[
+						{ offset: 0, color: "#FBBF24" },
+						{ offset: 100, color: "#735811" },
+					]}
 				/>
 			)}
 		</div>

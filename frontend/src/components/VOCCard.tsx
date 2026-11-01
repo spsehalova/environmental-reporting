@@ -45,10 +45,14 @@ export function VOCCard({ measurement, roomName }: IaqCardProps) {
 					icon={matrixIcon}
 					title="bVOC"
 					roomName={roomName}
-					series={[{ key: "bvocPpm", label: "bVOC", color: "#F472B6" }]}
+					series={[
+						{ key: "bvocPpm", label: "bVOC", color: "#F472B6", defaultActive: true },
+						{ key: "gasPercentage", label: "Gas %", color: "#FFFFFF", defaultActive: false}
+					]}
 					value={bVOCppm != null ? bVOCppm.toFixed(3) : "--"}
 					unit="ppm"
 					onClose={() => setModalOpen(false)}
+					yDomain={{ min: 0, max: 100 }}
 				/>
 			)}
 		</div>

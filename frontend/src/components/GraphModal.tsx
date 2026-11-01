@@ -226,17 +226,41 @@ export function GraphModal({
 		.filter((s) => s.key !== primarySeries.key)
 		.map((s) => ({ label: s.label, data: dataByKey[s.key] ?? [], color: s.color, dashed: false, transparentArea: useGradient }));
 
+	const primaryDataMax = primaryData && primaryData.length > 0 ? Math.max(...primaryData.map((d) => d.value)) : 0;
+	const domainMax = yDomain?.max ?? primaryDataMax;
+
+	// SVG's objectBoundingBox gradient normalizes to EACH path's own bounding
+	// box. With warmup segmentation, every segment is a separate <path>, so a
+	// single shared gradient would get re-stretched to each segment's own
+	// local min/max — a segment that only ever reaches 120 would paint its
+	// local top as "red" regardless of what 120 actually means on the real
+	// 0-500 scale. Each segment needs its own gradient, resampled against its
+	// own local max, so a given value always lands on the same absolute color.
+	const gradientDefs: { id: string; stops: GradientStop[] }[] = [];
+	function gradientUrlFor(segData: DayDataPoint[], index: number): string | null {
+		if (!useGradient) return null;
+		const segMax = segData.length > 0 ? Math.max(...segData.map((d) => d.value)) : 0;
+		if (segMax <= 0) return null;
+		const id = `${GRADIENT_ID}-${index}`;
+		gradientDefs.push({ id, stops: resampleGradientStops(gradientStops!, domainMax, segMax) });
+		return `url(#${id})`;
+	}
+
 	const primarySegments = !primaryActive
 		? []
 		: useWarmupSegments
-			? segmentByWarmup(primaryData!, warmFlags!, useGradient ? `url(#${GRADIENT_ID})` : primarySeries.color).map(
-					(seg) => ({ label: seg.label, data: seg.data, color: seg.color, dashed: seg.dashed, transparentArea: false }),
-				)
+			? segmentByWarmup(primaryData!, warmFlags!, primarySeries.color).map((seg, i) => ({
+					label: seg.label,
+					data: seg.data,
+					color: seg.dashed ? seg.color : (gradientUrlFor(seg.data, i) ?? seg.color),
+					dashed: seg.dashed,
+					transparentArea: false,
+				}))
 			: [
 					{
 						label: primarySeries.label,
 						data: primaryData ?? [],
-						color: useGradient ? `url(#${GRADIENT_ID})` : primarySeries.color,
+						color: gradientUrlFor(primaryData ?? [], 0) ?? primarySeries.color,
 						dashed: false,
 						transparentArea: false,
 					},
@@ -248,11 +272,6 @@ export function GraphModal({
 	// lines to avoid muddy stacked fills; a gradient primary + its companions
 	// stay on an "area" axis so the primary keeps its filled look.
 	const elementType = useGradient || chartData.length <= 1 ? "area" : "line";
-
-	const primaryDataMax = primaryData && primaryData.length > 0 ? Math.max(...primaryData.map((d) => d.value)) : 0;
-	const resolvedGradientStops = useGradient && primaryDataMax > 0
-		? resampleGradientStops(gradientStops!, yDomain?.max ?? primaryDataMax, primaryDataMax)
-		: null;
 
 	return (
 		<Modal onClose={onClose}>
@@ -325,14 +344,16 @@ export function GraphModal({
 									max: yDomain?.max,
 								},
 							],
-							renderSVG: resolvedGradientStops
+							renderSVG: gradientDefs.length > 0
 								? () => (
 										<defs>
-											<linearGradient id={GRADIENT_ID} x1="0" y1="0" x2="0" y2="1">
-												{resolvedGradientStops.map((stop) => (
-													<stop key={stop.offset} offset={`${stop.offset}%`} stopColor={stop.color} />
-												))}
-											</linearGradient>
+											{gradientDefs.map((def) => (
+												<linearGradient key={def.id} id={def.id} x1="0" y1="0" x2="0" y2="1">
+													{def.stops.map((stop) => (
+														<stop key={stop.offset} offset={`${stop.offset}%`} stopColor={stop.color} />
+													))}
+												</linearGradient>
+											))}
 										</defs>
 									)
 								: undefined,

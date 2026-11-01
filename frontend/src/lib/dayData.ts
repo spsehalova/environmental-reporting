@@ -1,4 +1,4 @@
-const MEASUREMENTS_BASE = "http://localhost:8080";
+export const MEASUREMENTS_BASE = "http://localhost:8080";
 
 export interface DayDataPoint {
 	time: Date;
