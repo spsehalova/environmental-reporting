@@ -8,7 +8,7 @@ Adafruit_NeoPixel statusLed(1, PIN_STATUS_LED, NEO_GRB + NEO_KHZ800);
 
 void statusLedInit() {
 	statusLed.begin();
-	statusLed.setBrightness(10); // dim - sits close to the lux sensor on the breadboard
+	statusLed.setBrightness(50);
 	statusLed.show();
 }
 
@@ -84,18 +84,18 @@ unsigned long blinkIntervalFor(StationStatus status) {
 
 Rgb colorForIAQ(float iaq) {
 	if (iaq <= 50)
-		return {0, 176, 80}; // Excellent
+		return {0x00, 0x6A, 0xF2}; // Excellent
 	if (iaq <= 100)
-		return {146, 208, 80}; // Good
+		return {0x00, 0xC8, 0x74}; // Good
 	if (iaq <= 150)
-		return {255, 255, 0}; // Lightly polluted
+		return {0x56, 0xDF, 0x00}; // Lightly polluted
 	if (iaq <= 200)
-		return {255, 140, 0}; // Moderately polluted
+		return {0xEA, 0xE4, 0x00}; // Moderately polluted
 	if (iaq <= 250)
-		return {255, 0, 0}; // Heavily polluted
+		return {0xEF, 0x79, 0x00}; // Heavily polluted
 	if (iaq <= 350)
-		return {166, 7, 90}; // Severely polluted
-	return {132, 60, 12};	  // Extremely polluted
+		return {0xE8, 0x00, 0x00}; // Severly polluted
+	return {0xFF, 0x00, 0xC8};	   // Extremely polluted
 }
 } // namespace
 

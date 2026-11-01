@@ -40,7 +40,7 @@ function camelizeKeys(value: unknown) {
 	return Object.fromEntries(Object.entries(value).map(([key, val]) => [snakeToCamel(key), val]));
 }
 
-const rawMeasurementDataSchema = createInsertSchema(measurements, {
+export const rawMeasurementDataSchema = createInsertSchema(measurements, {
 	temperature: (schema) => schema.min(-40).max(85),
 	humidity: (schema) => schema.min(0).max(100),
 	pressureHpa: (schema) => schema.min(300).max(1100),

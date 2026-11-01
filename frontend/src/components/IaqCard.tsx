@@ -1,22 +1,29 @@
+import { useState } from "react";
 import grainIcon from "../icons/grain.svg";
 import alertTriangleIcon from "../icons/alert-triangle.svg";
 import circleIcon from "../icons/circle.svg";
 import { getIaqCategory, getIaqPercent } from "../lib/iaq";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { IaqModal } from "./IaqModal";
 
 interface IaqCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
-export function IaqCard({ measurement }: IaqCardProps) {
+export function IaqCard({ measurement, roomName }: IaqCardProps) {
 	const iaq = measurement.iaq ?? null;
 	const staticIaq = measurement.staticIaq ?? null;
 	const category = getIaqCategory(iaq);
 	const percent = getIaqPercent(iaq);
+	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={grainIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">IAQ</span>
@@ -44,6 +51,8 @@ export function IaqCard({ measurement }: IaqCardProps) {
 				<span className="text-white/60">sIAQ</span>
 				<span className="font-semibold font-mono">{staticIaq != null ? Math.round(staticIaq) : "--"}</span>
 			</div>
+
+			{modalOpen && <IaqModal roomName={roomName} measurement={measurement} onClose={() => setModalOpen(false)} />}
 		</div>
 	);
 }

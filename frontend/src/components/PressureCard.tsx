@@ -1,9 +1,12 @@
+import { useState } from "react";
 import rosetteAsteriskIcon from "../icons/rosette-asterisk.svg";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface PressureCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
 const CENTER = 51.5;
@@ -22,8 +25,9 @@ const RING_PATH =
 const TICK_PATH =
 	"M30.643 4.41246C29.5925 4.87778 28.5578 5.37812 27.5408 5.91265L32.3326 15.0301C33.1463 14.6025 33.974 14.2022 34.8144 13.83L30.643 4.41246Z";
 
-export function PressureCard({ measurement }: PressureCardProps) {
+export function PressureCard({ measurement, roomName }: PressureCardProps) {
 	const pressureHpa = measurement.pressureHpa ?? null;
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const normalized =
 		pressureHpa != null
@@ -33,7 +37,10 @@ export function PressureCard({ measurement }: PressureCardProps) {
 	const tickRotation = targetAngle - DEFAULT_TICK_ANGLE;
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col items-center bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col items-center bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60 self-start">
 				<Icon src={rosetteAsteriskIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Tlak</span>
@@ -63,6 +70,19 @@ export function PressureCard({ measurement }: PressureCardProps) {
 				<span>Low</span>
 				<span>High</span>
 			</div>
+
+			{modalOpen && (
+				<GraphModal
+					icon={rosetteAsteriskIcon}
+					title="Tlak"
+					roomName={roomName}
+					series={[{ key: "pressureHpa", label: "Tlak", color: "#A78BFA" }]}
+					value={pressureHpa != null ? Math.round(pressureHpa).toString() : "--"}
+					unit="hPa"
+					onClose={() => setModalOpen(false)}
+					yDomain={{ min: PRESSURE_MIN, max: PRESSURE_MAX }}
+				/>
+			)}
 		</div>
 	);
 }

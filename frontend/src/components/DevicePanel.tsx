@@ -71,7 +71,7 @@ export function DevicePanel({ device }: DevicePanelProps) {
 				<div className="lg:col-span-2 lg:row-span-2 flex items-center justify-center content-center p-4 pt-0 lg:p-0 z-100">
 					<div className="w-full max-w-[734px] gap-2.5 grid grid-cols-[repeat(auto-fit,minmax(140px,176px))] justify-center">
 						{CARDS.map((Card, i) => (
-							<Card key={i} measurement={measurement} />
+							<Card key={i} measurement={measurement} roomName={device.roomName} />
 						))}
 					</div>
 				</div>

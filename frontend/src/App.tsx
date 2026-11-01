@@ -42,6 +42,7 @@ export function App() {
 
 	return (
 		<div
+			id="app-root"
 			className="no-scrollbar fixed top-0 left-0 flex overflow-x-auto overflow-y-hidden snap-x snap-mandatory"
 			style={{
 				width: `${100 / zoomFactor}vw`,

@@ -1,9 +1,12 @@
+import { useState } from "react";
 import type { LatestMeasurement } from "../lib/types";
 import moldIcon from "../icons/fold.svg";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface MoldRiskCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
 interface RiskLevel {
@@ -22,16 +25,20 @@ const RISK_LEVELS: RiskLevel[] = [
 const SEGMENT_WIDTH = 31.5;
 const SEGMENT_GAP = 2;
 
-export function MoldRiskCard({ measurement }: MoldRiskCardProps) {
+export function MoldRiskCard({ measurement, roomName }: MoldRiskCardProps) {
 	const moldRiskIndex = measurement.moldRiskIndex ?? null;
 	const dewPointC = measurement.dewPointC ?? null;
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const levelIndex = moldRiskIndex != null ? Math.min(Math.max(moldRiskIndex, 0), RISK_LEVELS.length - 1) : 0;
 	const segmentsLit = moldRiskIndex != null ? levelIndex + 1 : 0;
 	const level = RISK_LEVELS[levelIndex] ?? RISK_LEVELS[0]!;
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={moldIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Pleseň</span>
@@ -62,21 +69,18 @@ export function MoldRiskCard({ measurement }: MoldRiskCardProps) {
 				<span className="text-white/60">Rosný bod</span>
 				<span className="font-semibold font-mono">{dewPointC != null ? Math.round(dewPointC) : "--"}°</span>
 			</div>
-		</div>
-	);
-}
 
-function MoldIcon({ className }: { className?: string }) {
-	return (
-		<svg viewBox="0 0 24 24" fill="none" className={className}>
-			<path d="M5 20V4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-			<path
-				d="M5 4L17 9L5 14"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</svg>
+			{modalOpen && (
+				<GraphModal
+					icon={moldIcon}
+					title="Pleseň"
+					roomName={roomName}
+					series={[{ key: "moldRiskIndex", label: "Pleseň", color: level.color }]}
+					value={moldRiskIndex != null ? moldRiskIndex.toString() : "--"}
+					summary={moldRiskIndex != null ? level.label : undefined}
+					onClose={() => setModalOpen(false)}
+				/>
+			)}
+		</div>
 	);
 }

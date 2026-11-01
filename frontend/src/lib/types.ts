@@ -5,6 +5,7 @@ export interface LatestMeasurement {
 	iaq?: number | null;
 	staticIaq?: number | null;
 	iaqAccuracy?: number | null;
+	co2Ppm?: number | null;
 	eco2Ppm?: number | null;
 	bvocPpm?: number | null;
 	compensatedGasOhm?: number | null;

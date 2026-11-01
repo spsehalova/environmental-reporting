@@ -1,10 +1,12 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import devicesIcon from "../icons/devices.svg";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface DevicesCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
 function RadarGradient({ id }: { id: string }) {
@@ -37,12 +39,16 @@ function RadarGradient({ id }: { id: string }) {
 	);
 }
 
-export function DevicesCard({ measurement }: DevicesCardProps) {
+export function DevicesCard({ measurement, roomName }: DevicesCardProps) {
 	const deviceCount = measurement.nearbyDevices ?? null;
 	const id = useId();
+	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
-		<div className="relative w-full aspect-square rounded-3xl p-4 flex flex-col overflow-hidden bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="relative w-full aspect-square rounded-3xl p-4 flex flex-col overflow-hidden bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={devicesIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Zariadenia</span>
@@ -91,6 +97,17 @@ export function DevicesCard({ measurement }: DevicesCardProps) {
 			<div className="relative flex-1 flex items-center justify-center">
 				<p className="text-6xl font-medium font-mono leading-none">{deviceCount != null ? deviceCount : "--"}</p>
 			</div>
+
+			{modalOpen && (
+				<GraphModal
+					icon={devicesIcon}
+					title="Zariadenia"
+					roomName={roomName}
+					series={[{ key: "nearbyDevices", label: "Zariadenia", color: "#9CA3AF" }]}
+					value={deviceCount != null ? deviceCount.toString() : "--"}
+					onClose={() => setModalOpen(false)}
+				/>
+			)}
 		</div>
 	);
 }

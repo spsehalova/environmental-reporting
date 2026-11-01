@@ -7,14 +7,14 @@ extern bool bsecInitFailed;
 
 // Last values from BSEC (updated by newBSECCallback)
 struct EnvReadings {
-	float temperature = NAN;
-	float humidity    = NAN;
-	float pressure    = NAN;
-	float iaq         = NAN;
-	int   iaqAccuracy = 0;
-	float staticIaq   = NAN; // unscaled IAQ
-	float eco2        = NAN; // ppm
-	float bvoc        = NAN; // ppm
+	float temperature    = NAN;
+	float humidity       = NAN;
+	float pressure       = NAN;
+	float iaq            = NAN;
+	int   iaqAccuracy    = 0;
+	float staticIaq      = NAN; // unscaled IAQ
+	float eco2           = NAN; // ppm
+	float bvoc           = NAN; // ppm
 	float compensatedGas = NAN; // ohm, log-linearized, compensated signal
 	float gasPercentage  = NAN; // percentage of min/max filtered gas value
 };

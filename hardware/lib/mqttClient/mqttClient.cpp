@@ -73,7 +73,7 @@ void publishSensorData(const char *topic) {
 	doc["dew_point_c"] = computeDewPoint(bsecEnv.temperature, bsecEnv.humidity);
 	doc["abs_humidity_gm3"] =
 		computeAbsoluteHumidity(bsecEnv.temperature, bsecEnv.humidity);
-	doc["mold_risk_index"] = computeMoldRiskIndex(bsecEnv.temperature, doc["dew_point_c"]);
+	doc["mold_risk_index"] = VTTMoldRiskValue;
 	doc["heat_index_c"] = computeHeatIndexC(bsecEnv.temperature, bsecEnv.humidity);
 
 	char payload[768];

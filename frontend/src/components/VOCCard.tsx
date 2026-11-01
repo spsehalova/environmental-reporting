@@ -1,18 +1,25 @@
+import { useState } from "react";
 import matrixIcon from "../icons/matrix.svg";
 import alertTriangleIcon from "../icons/alert-triangle.svg";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface IaqCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
-export function VOCCard({ measurement }: IaqCardProps) {
+export function VOCCard({ measurement, roomName }: IaqCardProps) {
 	const bVOCppm = measurement.bvocPpm ?? null;
 	const gasPerc = measurement.gasPercentage ?? null;
+	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={matrixIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">bVOC</span>
@@ -32,6 +39,18 @@ export function VOCCard({ measurement }: IaqCardProps) {
 					<span className="font-semibold font-mono">{gasPerc != null ? gasPerc.toFixed(2) : "--"}%</span>
 				</div>
 			</div>
+
+			{modalOpen && (
+				<GraphModal
+					icon={matrixIcon}
+					title="bVOC"
+					roomName={roomName}
+					series={[{ key: "bvocPpm", label: "bVOC", color: "#F472B6" }]}
+					value={bVOCppm != null ? bVOCppm.toFixed(3) : "--"}
+					unit="ppm"
+					onClose={() => setModalOpen(false)}
+				/>
+			)}
 		</div>
 	);
 }

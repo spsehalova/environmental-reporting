@@ -1,10 +1,12 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 import brightnessUpIcon from "../icons/brightness-up.svg";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface LuxCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
 const WAVE_WIDTH = 140;
@@ -22,9 +24,10 @@ function pointsToPath(points: [number, number][]) {
 	return points.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
 }
 
-export function LuxCard({ measurement }: LuxCardProps) {
+export function LuxCard({ measurement, roomName }: LuxCardProps) {
 	const lux = measurement.lux ?? null;
 	const gradientId = useId();
+	const [modalOpen, setModalOpen] = useState(false);
 
 	// Lux perception is roughly logarithmic (same scale used for the
 	// background filter), mapped to [-1, 1] so a dark reading pulls the dot
@@ -55,7 +58,10 @@ export function LuxCard({ measurement }: LuxCardProps) {
 	const highlightPoints = wavePoints.filter(([x]) => x >= highlightStartX);
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={brightnessUpIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Lux</span>
@@ -99,6 +105,18 @@ export function LuxCard({ measurement }: LuxCardProps) {
 				<p className="text-4xl font-medium font-mono leading-none">{lux != null ? Math.round(lux) : "--"}</p>
 				<p className="text-2xl truncate font-light">lx</p>
 			</div>
+
+			{modalOpen && (
+				<GraphModal
+					icon={brightnessUpIcon}
+					title="Lux"
+					roomName={roomName}
+					series={[{ key: "lux", label: "Lux", color: "#FBBF24" }]}
+					value={lux != null ? Math.round(lux).toString() : "--"}
+					unit="lx"
+					onClose={() => setModalOpen(false)}
+				/>
+			)}
 		</div>
 	);
 }

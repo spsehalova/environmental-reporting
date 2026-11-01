@@ -1,11 +1,14 @@
+import { useState } from "react";
 import volumeIcon from "../icons/volume.svg";
 import alertTriangleIcon from "../icons/alert-triangle.svg";
 import checkmarkCircleIcon from "../icons/circle-check.svg";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface NoiseCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
 const NOISE_MAX_DB = 130;
@@ -37,14 +40,18 @@ const BARS: BarSpec[] = [
 	{ x: 119.556, width: 5 },
 ];
 
-export function NoiseCard({ measurement }: NoiseCardProps) {
+export function NoiseCard({ measurement, roomName }: NoiseCardProps) {
 	const noiseDb = measurement.noiseDbRel ?? null;
 	const isLoud = noiseDb != null && noiseDb >= LOUD_THRESHOLD_DB;
 	const activeBars =
 		noiseDb != null ? Math.round((Math.min(Math.max(noiseDb, 0), NOISE_MAX_DB) / NOISE_MAX_DB) * BARS.length) : 0;
+	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={volumeIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Hluk</span>
@@ -97,6 +104,24 @@ export function NoiseCard({ measurement }: NoiseCardProps) {
 				<p className="text-4xl font-medium font-mono leading-none">{noiseDb != null ? Math.round(noiseDb) : "--"}</p>
 				<p className="text-2xl truncate font-light">dB</p>
 			</div>
+
+			{modalOpen && (
+				<GraphModal
+					icon={volumeIcon}
+					title="Hluk"
+					roomName={roomName}
+					series={[{ key: "noiseDbRel", label: "Hluk", color: "#65DB7C" }]}
+					value={noiseDb != null ? Math.round(noiseDb).toString() : "--"}
+					unit="dB"
+					yDomain={{ min: 0, max: NOISE_MAX_DB }}
+					gradientStops={[
+						{ offset: 0, color: "#F87171" },
+						{ offset: (1 - LOUD_THRESHOLD_DB / NOISE_MAX_DB) * 100, color: "#FBBF24" },
+						{ offset: 100, color: "#65DB7C" },
+					]}
+					onClose={() => setModalOpen(false)}
+				/>
+			)}
 		</div>
 	);
 }

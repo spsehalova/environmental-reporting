@@ -1,17 +1,21 @@
+import { useState } from "react";
 import temperaturePlusIcon from "../icons/temperature-plus.svg";
 import type { LatestMeasurement } from "../lib/types";
 import { Icon } from "./Icon";
+import { GraphModal } from "./GraphModal";
 
 interface HeatIndexCardProps {
 	measurement: LatestMeasurement;
+	roomName: string;
 }
 
 const DIFF_RANGE = 10; // °C either side, clamps how far the pill can travel
 
-export function HeatIndexCard({ measurement }: HeatIndexCardProps) {
+export function HeatIndexCard({ measurement, roomName }: HeatIndexCardProps) {
 	const heatIndexC = measurement.heatIndexC ?? null;
 	const actualC = measurement.temperature ?? null;
 	const diff = heatIndexC != null && actualC != null ? heatIndexC - actualC : null;
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const isCooler = diff != null && diff < -0.5;
 	const isWarmer = diff != null && diff > 0.5;
@@ -29,7 +33,10 @@ export function HeatIndexCard({ measurement }: HeatIndexCardProps) {
 					: "Pocitová teplota je rovnaká ako skutočná.";
 
 	return (
-		<div className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white">
+		<div
+			onClick={() => setModalOpen(true)}
+			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={temperaturePlusIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Heat Index</span>
@@ -61,6 +68,19 @@ export function HeatIndexCard({ measurement }: HeatIndexCardProps) {
 			</div>
 
 			<p className="text-xs text-white/70 leading-snug">{caption}</p>
+
+			{modalOpen && (
+				<GraphModal
+					icon={temperaturePlusIcon}
+					title="Heat Index"
+					roomName={roomName}
+					series={[{ key: "heatIndexC", label: "Heat Index", color: accentColor }]}
+					value={heatIndexC != null ? Math.round(heatIndexC).toString() : "--"}
+					unit="°"
+					summary={caption}
+					onClose={() => setModalOpen(false)}
+				/>
+			)}
 		</div>
 	);
 }

@@ -6,6 +6,7 @@
 #include <PubSubClient.h>
 #include <WiFi.h>
 #include <Wire.h>
+#include <cmath>
 #include <cstdint>
 #include <set>
 // #include <WiFiManager.h>
@@ -17,6 +18,7 @@
 #endif
 #include "bleWorks.h"
 #include "bsecHandling.h"
+#include "computedReadings.h"
 #include "lux.h"
 #include "mqttClient.h"
 #include "noiseLevels.h"
@@ -34,8 +36,10 @@ const char *password = WIFI_PASS;
 const unsigned long PUBLISH_INTERVAL_MS = 60000; // 60s
 const unsigned long HEARTBEAT_INTERVAL_MS = 10UL * 60UL * 1000UL; // 10min
 const unsigned int BSEC_SAVE_STATE_PERIOD_MS = 60UL * 60UL * 1000UL; // 1h
+const unsigned int VTT_MOLD_RISK_COMPUTE_PERIOD_MS = 60UL * 60UL * 1000UL; // 1h
 const unsigned long WIFI_RETRY_INTERVAL_MS = 5000; // 5s
 const unsigned long DEBUG_PRINT_INTERVAL_MS = 1000; // 1s
+const unsigned int RESTART_PERIOD_MS = 14 * 24 * 60UL * 60UL  * 1000UL; // 14 days
 
 // NOTE: setup
 void setup() {
@@ -49,8 +53,10 @@ void setup() {
 	setupBLE();
 	setupDustSensor();
 	setupSEN63C();
+	loadVTTCompute();
 
 	// Connecting to a Wi-Fi network
+	WiFi.setHostname("envmeasure");
 	WiFi.begin(ssid, password);
 	while (WiFi.status() != WL_CONNECTED) {
 		setStatus(StationStatus::WIFI_CONNECTING);
@@ -123,6 +129,13 @@ void loop() {
 	if (!mqttReady)
 		return;
 
+	static unsigned long lastVTTCompute = 0;
+	if ((lastVTTCompute == 0 || now - lastVTTCompute >= VTT_MOLD_RISK_COMPUTE_PERIOD_MS) &&
+		(!isnan(bsecEnv.temperature) && !isnan(bsecEnv.humidity))) {
+		lastVTTCompute = now;
+		saveVTTCompute();
+	}
+	
 	static unsigned long lastPublish = 0;
 	if (lastPublish == 0 || now - lastPublish >= PUBLISH_INTERVAL_MS) {
 		lastPublish = now;
@@ -140,5 +153,10 @@ void loop() {
 		bsecEnv.iaqAccuracy == 3) {
 		lastBsecSave = now;
 		saveBsecState();
+	}
+
+	if (now >= RESTART_PERIOD_MS) {
+		Serial.println("Restarting after 14 days...");
+		ESP.restart();
 	}
 }
