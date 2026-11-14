@@ -1,2 +1,0 @@
-void setupDustSensor();
-float readDustDensity();

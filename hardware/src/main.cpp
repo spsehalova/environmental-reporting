@@ -23,7 +23,6 @@
 #include "mqttClient.h"
 #include "noiseLevels.h"
 #include "pins.h"
-#include "pm25.h"
 #include "secrets.h"
 #include "sen63cHandling.h"
 #include "statusLed.h"
@@ -49,9 +48,9 @@ void setup() {
 	Wire.begin(PIN_I2C_SDA, PIN_I2C_SCL);
 
 	setupLuxSensor();
+	initNoiseLevel();
 	setupBSEC();
 	setupBLE();
-	setupDustSensor();
 	setupSEN63C();
 	loadVTTCompute();
 
@@ -118,10 +117,10 @@ void loop() {
 	static unsigned long lastDebugPrintMs = 0;
 	if ((lastDebugPrintMs == 0 || now - lastDebugPrintMs >= DEBUG_PRINT_INTERVAL_MS) && Serial) {
 		lastDebugPrintMs = now;
-		Serial.printf("Temp: %.2f °C, Humidity: %.2f %%, Pressure: %.2f hPa, IAQ: %.2f (accr %d), eCO2: %.2f ppm, BVOC: %.2f ppm, Lux: %.2f, Noise: %.2f dB rel, Dust: %.2f mg/m3, PM1.0: %.2f, PM2.5: %.2f, PM4.0: %.2f, PM10.0: %.2f ug/m3, CO2: %.0f ppm, Nearby devices: %d\n",
+		Serial.printf("Temp: %.2f °C, Humidity: %.2f %%, Pressure: %.2f hPa, IAQ: %.2f (accr %d), eCO2: %.2f ppm, BVOC: %.2f ppm, Lux: %.2f, Noise: %.2f dB rel, PM1.0: %.2f, PM2.5: %.2f, PM4.0: %.2f, PM10.0: %.2f ug/m3, CO2: %.0f ppm, Nearby devices: %d\n",
 					  bsecEnv.temperature, bsecEnv.humidity, bsecEnv.pressure,
 					  bsecEnv.iaq, bsecEnv.iaqAccuracy, bsecEnv.eco2, bsecEnv.bvoc, getLuxReading(),
-					  readNoiseLevel(), readDustDensity(),
+					  readNoiseLevel(),
 					  sen63cReadings.pm1_0, sen63cReadings.pm2_5, sen63cReadings.pm4_0, sen63cReadings.pm10_0,
 					  sen63cReadings.co2, getNearbyDeviceCount());
 	}

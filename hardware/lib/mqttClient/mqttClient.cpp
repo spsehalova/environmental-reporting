@@ -6,7 +6,6 @@
 #include <ArduinoJson.h>
 #include <WiFi.h>
 #include <esp_system.h>
-#include "pm25.h"
 #include "computedReadings.h"
 #include "sen63cHandling.h"
 
