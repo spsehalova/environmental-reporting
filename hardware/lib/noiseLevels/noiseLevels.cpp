@@ -7,6 +7,10 @@ namespace {
 	constexpr i2s_port_t MIC_I2S_PORT = I2S_NUM_0;
 	constexpr int SAMPLE_RATE = 16000;
 	constexpr int SAMPLES_PER_READ = 1600; // ~100ms at 16kHz, matches the old sampling window
+	constexpr double FULL_SCALE = 8388608.0; // 2^23, max amplitude of signed 24-bit PCM
+	constexpr double MIC_SENSITIVITY_DBFS = -26.0; // INMP441 datasheet: -26 dBFS output for a 94 dB SPL, 1kHz reference tone
+	constexpr double REFERENCE_SPL_DB = 94.0;
+	constexpr double SMOOTHING_ALPHA = 0.2; // "Slow" time-weighting, damps 100ms-window spikes
 }
 
 void initNoiseLevel() {
@@ -34,7 +38,8 @@ void initNoiseLevel() {
 }
 
 /*
- * @return {float} `rel dB`
+ * @return {float} approx `dB SPL`, calibrated via the INMP441 datasheet
+ * sensitivity rating, not a lab-grade measurement
  */
 float readNoiseLevel() {
 	static int32_t samples[SAMPLES_PER_READ];
@@ -57,9 +62,14 @@ float readNoiseLevel() {
 	if (variance < 0)
 		variance = 0; // guard against fp rounding
 
-	float rms = sqrt(variance);
+	double rms = sqrt(variance);
 	if (rms < 1)
 		rms = 1; // avoid log(0)
-	float dbRelative = 20.0f * log10(rms);
-	return dbRelative; // relative value, not calibrated dB SPL
+
+	double dbFullScale = 20.0 * log10(rms / FULL_SCALE);
+	double dbSPL = REFERENCE_SPL_DB + (dbFullScale - MIC_SENSITIVITY_DBFS);
+
+	static double smoothedDb = NAN;
+	smoothedDb = std::isnan(smoothedDb) ? dbSPL : (SMOOTHING_ALPHA * dbSPL + (1.0 - SMOOTHING_ALPHA) * smoothedDb);
+	return (float)smoothedDb;
 }
