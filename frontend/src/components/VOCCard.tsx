@@ -18,7 +18,7 @@ export function VOCCard({ measurement, roomName }: IaqCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={matrixIcon} className="size-4" />
@@ -27,10 +27,10 @@ export function VOCCard({ measurement, roomName }: IaqCardProps) {
 			</div>
 
 			<div className="">
-				<p className="text-4xl font-medium font-mono leading-none">
+				<p className="text-3xl font-medium font-mono leading-none">
 					{bVOCppm != null ? bVOCppm.toFixed(3).replace("0.", ".").replace("0,", ",") : "--"}
 				</p>
-				<p className="text-2xl truncate font-light">ppm</p>
+				<p className="text-lg truncate font-light">ppm</p>
 			</div>
 
 			<div className="flex flex-col gap-1 text-xs">

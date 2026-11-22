@@ -17,7 +17,7 @@ import {
 	type SQL,
 } from "drizzle-orm";
 import { z } from "zod";
-import { measurements } from "../../db/schema";
+import { measurements } from "../../../db/schema";
 
 const measurementColumns = getTableColumns(measurements);
 

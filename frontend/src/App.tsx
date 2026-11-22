@@ -3,8 +3,9 @@ import "./index.css";
 import type { DeviceProperty } from "./lib/types";
 import { DevicePanel } from "./components/DevicePanel";
 import { CsvExportModal } from "./components/CsvExportModal";
+import { SAMPLE_DEVICES } from "./lib/sampleData";
 
-const DEVICES_ENDPOINT = "http://localhost:8080/";
+const DEVICES_ENDPOINT = "/api"; // todo: env
 const DEVICES_POLL_INTERVAL_MS = 60 * 1000;
 
 export function App() {
@@ -42,6 +43,11 @@ export function App() {
 		};
 	}, []);
 
+	// No real device reachable (sensor offline, or still loading) — fall back
+	// to a sample device so the dashboard stays demoable without hardware.
+	const usingSample = Object.keys(devices).length === 0 && window.localStorage.getItem("allowSampleData") === "yes";
+	const displayDevices = usingSample ? SAMPLE_DEVICES : devices;
+
 	return (
 		<div
 			id="app-root"
@@ -53,11 +59,14 @@ export function App() {
 				transformOrigin: "top left",
 			}}
 		>
-			{Object.entries(devices).map(([slug, device]) => (
+			{Object.entries(displayDevices).map(([slug, device]) => (
 				<DevicePanel key={slug} device={device} />
 			))}
-			{Object.keys(devices).length === 0 && (
-				<span className="m-auto text-white/60 text-lg font-semibold">Žiadne zariadenia</span>
+
+			{usingSample && (
+				<span className="fixed top-4 left-1/2 z-100 -translate-x-1/2 rounded-full bg-amber-500/90 px-3 py-1 text-xs font-semibold text-black shadow-lg">
+					Sample dáta
+				</span>
 			)}
 
 			<button
@@ -69,7 +78,7 @@ export function App() {
 			</button>
 
 			{csvModalOpen && (
-				<CsvExportModal roomNames={Object.keys(devices)} onClose={() => setCsvModalOpen(false)} />
+				<CsvExportModal roomNames={Object.keys(displayDevices)} onClose={() => setCsvModalOpen(false)} />
 			)}
 		</div>
 	);

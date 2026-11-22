@@ -39,7 +39,7 @@ export function PressureCard({ measurement, roomName }: PressureCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col items-center bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col items-center bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60 self-start">
 				<Icon src={rosetteAsteriskIcon} className="size-4" />

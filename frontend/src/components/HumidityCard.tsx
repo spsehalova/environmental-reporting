@@ -19,28 +19,27 @@ export function HumidityCard({ measurement, roomName }: IaqCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={rippleDropletIcon} className="size-4" />
 				<span className="text-xs font-semibold uppercase tracking-wide">Vlhkosť</span>
-				{/*{measurement.warmingUp && <Icon src={alertTriangleIcon} className="size-4 text-yellow-300 ml-auto" />}*/}
 			</div>
 
 			<div className="flex flex-row items-baseline gap-1">
-				<p className="text-4xl font-medium font-mono leading-none">
+				<p className="text-3xl font-medium font-mono leading-none">
 					{humidityPerc != null ? Math.round(humidityPerc) : "--"}
 				</p>
-				<p className="text-2xl truncate font-light">%</p>
+				<p className="text-lg truncate font-light">%</p>
 			</div>
 
 			<div className="flex flex-col gap-1 text-xs">
 				<div className="flex items-center justify-between text-xs">
-					<span className="text-white/60 ">Rosný bod</span>
+					<span className="text-white/60">Rosný bod</span>
 					<span className="font-semibold font-mono">{dewPointC != null ? Math.round(dewPointC) : "--"}°</span>
 				</div>
 				<div className="flex items-center justify-between text-xs">
-					<span className="text-white/60 ">AbsH</span>
+					<span className="text-white/60">AbsH</span>
 					<span className="font-semibold font-mono">{absoluteHumidity != null ? Math.round(absoluteHumidity) : "--"} g/m³</span>
 				</div>
 			</div>

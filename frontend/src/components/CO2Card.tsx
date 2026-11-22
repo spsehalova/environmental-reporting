@@ -18,7 +18,7 @@ export function CO2Card({ measurement, roomName }: IaqCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={filterIcon} className="size-4" />
@@ -26,8 +26,8 @@ export function CO2Card({ measurement, roomName }: IaqCardProps) {
 			</div>
 
 			<div>
-				<p className="text-4xl font-medium font-mono leading-none">{co2ppm != null ? Math.round(co2ppm) : "--"}</p>
-				<p className="text-2xl truncate font-light">ppm</p>
+				<p className="text-3xl font-medium font-mono leading-none">{co2ppm != null ? Math.round(co2ppm) : "--"}</p>
+				<p className="text-lg truncate font-light">ppm</p>
 			</div>
 
 			<div className="flex items-center justify-between text-xs">

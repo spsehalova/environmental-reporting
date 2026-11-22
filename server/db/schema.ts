@@ -29,7 +29,7 @@ export const measurements = sqliteTable(
 		nearbyDevices: integer("nearby_devices"),
 		dewPointC: real("dew_point_c"),
 		absHumidityGm3: real("abs_humidity_gm3"),
-		moldRiskIndex: integer("mold_risk_index"),
+		moldRiskIndex: real("mold_risk_index"),
 		heatIndexC: real("heat_index_c"),
 	},
 	() => [
@@ -57,7 +57,7 @@ export const measurements = sqliteTable(
 		),
 		check(
 			"mold_risk_index_range",
-			sql`${sql.raw("mold_risk_index")} IS NULL OR (${sql.raw("mold_risk_index")} BETWEEN -1 AND 3)`,
+			sql`${sql.raw("mold_risk_index")} IS NULL OR (${sql.raw("mold_risk_index")} BETWEEN -1 AND 6)`,
 		),
 		check("heat_index_c_range", sql`${sql.raw("heat_index_c")} IS NULL OR ${sql.raw("heat_index_c")} >= 0`),
 		index("room"),

@@ -27,15 +27,15 @@ export function HeatIndexCard({ measurement, roomName }: HeatIndexCardProps) {
 		diff == null
 			? "Bez dostupných údajov."
 			: isCooler
-				? "Vlhkost schladzuje."
+				? "Pocitovo je schladnejšie."
 				: isWarmer
-					? "Vlhkosť zvyšuje pocit tepla."
+					? "Pocitovo je tepljšie."
 					: "Pocitová teplota je rovnaká ako skutočná.";
 
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={temperaturePlusIcon} className="size-4" />

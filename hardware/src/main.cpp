@@ -27,6 +27,7 @@
 #include "sen63cHandling.h"
 #include "statusLed.h"
 #include <esp_system.h>
+#include "wifiMng.h"
 
 // WiFi
 const char *ssid = WIFI_SSID;
@@ -120,9 +121,8 @@ void loop() {
 		Serial.printf("Temp: %.2f °C, Humidity: %.2f %%, Pressure: %.2f hPa, IAQ: %.2f (accr %d), eCO2: %.2f ppm, BVOC: %.2f ppm, Lux: %.2f, Noise: %.2f ~dB SPL, PM1.0: %.2f, PM2.5: %.2f, PM4.0: %.2f, PM10.0: %.2f ug/m3, CO2: %.0f ppm, Nearby devices: %d\n",
 					  bsecEnv.temperature, bsecEnv.humidity, bsecEnv.pressure,
 					  bsecEnv.iaq, bsecEnv.iaqAccuracy, bsecEnv.eco2, bsecEnv.bvoc, getLuxReading(),
-					  readNoiseLevel(),
-					  sen63cReadings.pm1_0, sen63cReadings.pm2_5, sen63cReadings.pm4_0, sen63cReadings.pm10_0,
-					  sen63cReadings.co2, getNearbyDeviceCount());
+					  readNoiseLevel(),sen63cReadings.pm1_0, sen63cReadings.pm2_5, sen63cReadings.pm4_0, 
+					  sen63cReadings.pm10_0, sen63cReadings.co2, getNearbyDeviceCount());
 	}
 
 	if (!mqttReady)

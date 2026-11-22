@@ -57,6 +57,20 @@
       "when": 1793218161000,
       "tag": "0007_steady_vindicator",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1794783691653,
+      "tag": "0008_dazzling_toad_men",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1794783778743,
+      "tag": "0009_fluffy_dust",
+      "breakpoints": true
     }
   ]
 }

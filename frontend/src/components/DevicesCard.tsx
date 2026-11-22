@@ -9,36 +9,6 @@ interface DevicesCardProps {
 	roomName: string;
 }
 
-function RadarGradient({ id }: { id: string }) {
-	return (
-		<radialGradient
-			id={id}
-			cx="0"
-			cy="0"
-			r="1"
-			gradientUnits="userSpaceOnUse"
-			gradientTransform="translate(76 30.5) rotate(28.0725) scale(68 142.387)"
-		>
-			<animateTransform
-				attributeName="gradientTransform"
-				type="rotate"
-				additive="sum"
-				from="0 0 0"
-				to="360 0 0"
-				dur="14s"
-				repeatCount="indefinite"
-			/>
-			<stop stopColor="white" stopOpacity="0">
-				<animate attributeName="offset" values="0.25;0.4;0.25" dur="3.5s" repeatCount="indefinite" />
-			</stop>
-			<stop offset="0.622754" stopColor="white" />
-			<stop stopColor="white" stopOpacity="0">
-				<animate attributeName="offset" values="1;0.88;1" dur="3.5s" repeatCount="indefinite" />
-			</stop>
-		</radialGradient>
-	);
-}
-
 export function DevicesCard({ measurement, roomName }: DevicesCardProps) {
 	const deviceCount = measurement.nearbyDevices ?? null;
 	const id = useId();
@@ -47,7 +17,7 @@ export function DevicesCard({ measurement, roomName }: DevicesCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="relative w-full aspect-square rounded-3xl p-4 flex flex-col overflow-hidden bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="relative w-full aspect-square rounded-3xl p-5 flex flex-col overflow-hidden bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={devicesIcon} className="size-4" />
@@ -109,5 +79,35 @@ export function DevicesCard({ measurement, roomName }: DevicesCardProps) {
 				/>
 			)}
 		</div>
+	);
+}
+
+function RadarGradient({ id }: { id: string }) {
+	return (
+		<radialGradient
+			id={id}
+			cx="0"
+			cy="0"
+			r="1"
+			gradientUnits="userSpaceOnUse"
+			gradientTransform="translate(76 30.5) rotate(28.0725) scale(68 142.387)"
+		>
+			<animateTransform
+				attributeName="gradientTransform"
+				type="rotate"
+				additive="sum"
+				from="0 0 0"
+				to="360 0 0"
+				dur="14s"
+				repeatCount="indefinite"
+			/>
+			<stop stopColor="white" stopOpacity="0">
+				<animate attributeName="offset" values="0.25;0.4;0.25" dur="3.5s" repeatCount="indefinite" />
+			</stop>
+			<stop offset="0.622754" stopColor="white" />
+			<stop stopColor="white" stopOpacity="0">
+				<animate attributeName="offset" values="1;0.88;1" dur="3.5s" repeatCount="indefinite" />
+			</stop>
+		</radialGradient>
 	);
 }

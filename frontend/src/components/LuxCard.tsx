@@ -60,7 +60,7 @@ export function LuxCard({ measurement, roomName }: LuxCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={brightnessUpIcon} className="size-4" />
@@ -102,8 +102,8 @@ export function LuxCard({ measurement, roomName }: LuxCardProps) {
 			</svg>
 
 			<div className="flex flex-row items-baseline gap-1">
-				<p className="text-4xl font-medium font-mono leading-none">{lux != null ? Math.round(lux) : "--"}</p>
-				<p className="text-2xl truncate font-light">lx</p>
+				<p className="text-3xl font-medium font-mono leading-none">{lux != null ? Math.round(lux) : "--"}</p>
+				<p className="text-lg truncate font-light">lx</p>
 			</div>
 
 			{modalOpen && (

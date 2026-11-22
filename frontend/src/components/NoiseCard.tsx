@@ -50,7 +50,7 @@ export function NoiseCard({ measurement, roomName }: NoiseCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={volumeIcon} className="size-4" />
@@ -101,8 +101,8 @@ export function NoiseCard({ measurement, roomName }: NoiseCardProps) {
 			</svg>
 
 			<div className="flex flex-row items-baseline gap-1">
-				<p className="text-4xl font-medium font-mono leading-none">{noiseDb != null ? Math.round(noiseDb) : "--"}</p>
-				<p className="text-2xl truncate font-light">dB</p>
+				<p className="text-3xl font-medium font-mono leading-none">{noiseDb != null ? Math.round(noiseDb) : "--"}</p>
+				<p className="text-lg truncate font-light">dB</p>
 			</div>
 
 			{modalOpen && (

@@ -34,7 +34,7 @@ export function DevicePanel({ device }: DevicePanelProps) {
 	const measurement = device.latestMeasurement ?? {};
 
 	return (
-		<div className="w-full h-full shrink-0 snap-center overflow-y-auto flex items-start lg:items-center justify-center">
+		<div className="w-full h-full shrink-0 snap-center overflow-y-auto overflow-x-hidden lg:flex lg:items-center lg:justify-center">
 			<div className="lg:w-[95%] lg:min-h-[90%] lg:h-[90%] w-full min-h-full mx-auto relative lg:rounded-4xl overflow-hidden grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-1">
 				<div
 					className="absolute inset-0 -z-10 nice-backgound"
@@ -60,7 +60,7 @@ export function DevicePanel({ device }: DevicePanelProps) {
 				</div>
 
 				<div className="absolute inset-0 z-50">
-					<span>swjhdswhwfdwf</span>
+					<div className="size-2 rounded-full" style={{ backgroundColor: device.state == "ok" ? "#00ff00" : "#ffffff" }} />
 				</div>
 
 				<div className="flex flex-col justify-center content-center p-6 sm:p-8 text-center gap-2 sm:gap-3 z-100 text-shadow-lg tempback">
@@ -68,8 +68,8 @@ export function DevicePanel({ device }: DevicePanelProps) {
 					<p className="text-7xl sm:text-8xl lg:text-9xl">{measurement.temperature?.toFixed(0)}°</p>
 					<p className="text-lg sm:text-xl">abcd</p>
 				</div>
-				<div className="lg:col-span-2 lg:row-span-2 flex items-center justify-center content-center p-4 pt-0 lg:p-0 z-100">
-					<div className="w-full max-w-[734px] gap-2.5 grid grid-cols-[repeat(auto-fit,minmax(140px,176px))] justify-center">
+				<div className="lg:col-span-2 lg:row-span-2 lg:flex lg:items-center lg:justify-center content-center p-4 pt-0 lg:p-0 z-100">
+					<div className="w-full max-w-[734px] mx-auto gap-2.5 grid grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(140px,150px))] lg:grid-cols-[repeat(auto-fit,minmax(140px,176px))] justify-center">
 						{CARDS.map((Card, i) => (
 							<Card key={i} measurement={measurement} roomName={device.roomName} />
 						))}

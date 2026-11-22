@@ -18,7 +18,7 @@ export function PM25Card({ measurement, roomName }: IaqCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={scatterIcon} className="size-4" />
@@ -27,15 +27,15 @@ export function PM25Card({ measurement, roomName }: IaqCardProps) {
 			</div>
 
 			<div>
-				<p className="text-4xl font-medium font-mono leading-none">
+				<p className="text-3xl font-medium font-mono leading-none">
 					{pm25mgm3 != null ? pm25mgm3.toFixed(2).replace("0.", ".").replace("0,", ",") : "--"}
 				</p>
-				<p className="text-2xl truncate font-light">µg/m³</p>
+				<p className="text-lg truncate font-light">µg/m³</p>
 			</div>
 
-			<div className="flex items-center justify-between text-xs">
-				<span className="text-white/60">PM10</span>
-				<span className="font-semibold font-mono">{pm100mgm3 != null ? pm100mgm3.toFixed(2) : "--"} µg/m³</span>
+			<div className="flex items-center justify-between gap-1 text-xs">
+				<span className="shrink-0 text-white/60">PM10</span>
+				<span className="truncate font-semibold font-mono">{pm100mgm3 != null ? pm100mgm3.toFixed(2) : "--"} µg/m³</span>
 			</div>
 
 			{modalOpen && (

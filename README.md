@@ -16,12 +16,12 @@ Enviromentalne merania
 | Compensated Gas Resistace	| Ohm			| Compensated gas resistance			| BME680 									|				|
 | Gas Percentage			| %				| Gas percentage						| BME680 									|				|
 | Light						| lux			| Ambient light intensity				| BH1750									|				|
-| Noise						| rel dB		| Ambient noise level					| MAX4466									|				|
+| Noise						| rel dB		| Ambient noise level					| INMP441									|				|
 | PM2.5/1.0/4.0/10.0		| mg/m³			| Particulate matter x concentration	| SEN63C									|				|
 | Nearby Device Count		| count			| Number of nearby BLE devices			| ESP32										|				|
 | Dew Point					| °C			| Dew point temperature					| Calculated from Temperature and Humidity	|				| 
 | Absolute Humidity			| g/m³			| Absolute humidity						| Calculated from Temperature and Humidity	|				|
-| Mold Risk 				| MR Index		| Mold risk index						| Calculated from Temperature and Humidity	| 1 - 3			|
+| Mold Risk 				| VTT Index		| Mold risk index						| Calculated from Temperature and Humidity	| 1 - 3			|
 | Heat Index				| °C			| Heat index temperature				| Calculated from Temperature and Humidity	|				|
 
 

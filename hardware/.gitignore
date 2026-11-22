@@ -1,5 +1,5 @@
 .pio/
-src/secrets.h
+include/secrets.h
 .cache
 main.d
 compile_commands.json

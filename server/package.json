@@ -11,7 +11,8 @@
   },
   "devDependencies": {
     "@libsql/client": "^0.18.0",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "bun-plugin-tailwind": "^0.1.2"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -19,6 +20,7 @@
   "dependencies": {
     "@elysia/cors": "^1.4.2",
     "@elysia/openapi": "^1.4.16",
+    "@elysia/static": "^1.4.12",
     "@types/papaparse": "^5.5.2",
     "aedes": "^1.2.0",
     "drizzle-kit": "^0.31.11",

@@ -22,7 +22,7 @@ export function IaqCard({ measurement, roomName }: IaqCardProps) {
 	return (
 		<div
 			onClick={() => setModalOpen(true)}
-			className="w-full aspect-square rounded-3xl p-4 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
+			className="w-full aspect-square rounded-3xl p-5 flex flex-col justify-between bg-mist-900/20 backdrop-blur-3xl text-white cursor-pointer"
 		>
 			<div className="flex items-center gap-1.5 text-white/60">
 				<Icon src={grainIcon} className="size-4" />
@@ -34,8 +34,8 @@ export function IaqCard({ measurement, roomName }: IaqCardProps) {
 			</div>
 
 			<div>
-				<p className="text-2xl font-medium leading-none font-mono">{iaq != null ? Math.round(iaq) : "--"}</p>
-				<p className="text-2xl truncate font-light">{category?.shortLabel ?? "Unknown"}</p>
+				<p className="text-3xl font-medium leading-none font-mono">{iaq != null ? Math.round(iaq) : "--"}</p>
+				<p className="text-lg truncate font-light">{category?.shortLabel ?? "Unknown"}</p>
 			</div>
 
 			<div className="relative h-1 shrink-0 rounded-full bg-[linear-gradient(90deg,#4792F2_0%,#5DC89B_10%,#99DF6D_20%,#EAE656_30%,#EFA253_40%,#E85252_50%,#B22E41_70%,#75212D_100%)]">
