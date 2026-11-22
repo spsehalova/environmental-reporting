@@ -1,4 +1,5 @@
 import { getNiceBackgroundFilter, getNightTintOpacity } from "../lib/niceBackgroundFilter";
+import { useRoomImage } from "../lib/useRoomImage";
 import type { DeviceProperty } from "../lib/types";
 import { IaqCard } from "./IaqCard";
 import { CO2Card } from "./CO2Card";
@@ -32,13 +33,17 @@ interface DevicePanelProps {
 
 export function DevicePanel({ device }: DevicePanelProps) {
 	const measurement = device.latestMeasurement ?? {};
+	const roomImage = useRoomImage(device.roomName);
 
 	return (
 		<div className="w-full h-full shrink-0 snap-center overflow-y-auto overflow-x-hidden lg:flex lg:items-center lg:justify-center">
 			<div className="lg:w-[95%] lg:min-h-[90%] lg:h-[90%] w-full min-h-full mx-auto relative lg:rounded-4xl overflow-hidden grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-1">
 				<div
 					className="absolute inset-0 -z-10 nice-backgound"
-					style={{ filter: getNiceBackgroundFilter(measurement.lux) }}
+					style={{
+						filter: getNiceBackgroundFilter(measurement.lux),
+						backgroundImage: roomImage ? `url(${roomImage})` : undefined,
+					}}
 				/>
 				<div
 					className="absolute inset-0 -z-10 transition-opacity duration-1000"
