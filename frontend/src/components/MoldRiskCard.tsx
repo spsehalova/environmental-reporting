@@ -30,7 +30,7 @@ export function MoldRiskCard({ measurement, roomName }: MoldRiskCardProps) {
 	const dewPointC = measurement.dewPointC ?? null;
 	const [modalOpen, setModalOpen] = useState(false);
 
-	const levelIndex = moldRiskIndex != null ? Math.min(Math.max(moldRiskIndex, 0), RISK_LEVELS.length - 1) : 0;
+	const levelIndex = moldRiskIndex != null ? Math.min(Math.max(Math.round(moldRiskIndex), 0), RISK_LEVELS.length - 1) : 0;
 	const segmentsLit = moldRiskIndex != null ? levelIndex + 1 : 0;
 	const level = RISK_LEVELS[levelIndex] ?? RISK_LEVELS[0]!;
 
@@ -46,7 +46,7 @@ export function MoldRiskCard({ measurement, roomName }: MoldRiskCardProps) {
 
 			<div>
 				<p className="text-2xl font-medium font-mono leading-none">
-					{moldRiskIndex != null ? moldRiskIndex : "--"}
+					{moldRiskIndex != null ? Math.round(moldRiskIndex) : "--"}
 				</p>
 				<p className="text-2xl truncate">{moldRiskIndex != null ? level.label : "Neznáme"}</p>
 			</div>
@@ -68,7 +68,7 @@ export function MoldRiskCard({ measurement, roomName }: MoldRiskCardProps) {
 					title="Pleseň"
 					roomName={roomName}
 					series={[{ key: "moldRiskIndex", label: "Pleseň", color: level.color }]}
-					value={moldRiskIndex != null ? moldRiskIndex.toString() : "--"}
+					value={moldRiskIndex != null ? Math.round(moldRiskIndex).toString() : "--"}
 					summary={moldRiskIndex != null ? level.label : undefined}
 					onClose={() => setModalOpen(false)}
 				/>
