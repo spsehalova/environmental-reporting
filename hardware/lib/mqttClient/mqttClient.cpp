@@ -35,7 +35,7 @@ bool mqttEnsureConnected(const char *clientId, const char *user, const char *pas
 	lastAttemptMs = now;
 
 	Serial.print("Looking for the MQTT broker...");
-	bool connected = (user && pass)
+	bool connected = (user && pass && user[0] != '\0')
 						  ? mqttClient.connect(clientId, user, pass)
 						  : mqttClient.connect(clientId);
 	if (connected) {

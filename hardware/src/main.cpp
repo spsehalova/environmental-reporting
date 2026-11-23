@@ -29,10 +29,6 @@
 #include <esp_system.h>
 #include "wifiMng.h"
 
-// WiFi
-const char *ssid = WIFI_SSID;
-const char *password = WIFI_PASS;
-
 const unsigned long PUBLISH_INTERVAL_MS = 60000; // 60s
 const unsigned long HEARTBEAT_INTERVAL_MS = 10UL * 60UL * 1000UL; // 10min
 const unsigned int BSEC_SAVE_STATE_PERIOD_MS = 60UL * 60UL * 1000UL; // 1h
@@ -55,13 +51,10 @@ void setup() {
 	setupSEN63C();
 	loadVTTCompute();
 
-	// Connecting to a Wi-Fi network
-	WiFi.setHostname("envmeasure");
-	WiFi.begin(ssid, password);
-	while (WiFi.status() != WL_CONNECTED) {
-		setStatus(StationStatus::WIFI_CONNECTING);
-		Serial.println("Connecting to WiFi..");
-	}
+	// Connecting to a Wi-Fi network (blocking: opens a config portal if no
+	// saved credentials work, since the station is useless without WiFi)
+	setStatus(StationStatus::WIFI_CONNECTING);
+	setupWifi();
 
 	if (WiFi.status() == WL_CONNECT_FAILED) {
 		// fatal failure, doesn't retry, needs a manual reset
@@ -70,10 +63,13 @@ void setup() {
 		}
 	}
 
-	setupMQTT(MQTT_HOST, MQTT_PORT);
+	const WifiMngConfig &wifiConfig = getWifiConfig();
+	setupMQTT(wifiConfig.mqttServer.c_str(), wifiConfig.mqttPort);
 }
 
 void loop() {
+	handleResetButton();
+
 	bool wifiConnected = WiFi.status() == WL_CONNECTED;
 	if (!wifiConnected) {
 		static unsigned long lastWifiAttemptMs = 0;
@@ -92,14 +88,12 @@ void loop() {
 	readSEN63C();
 	updateBLEScan();
 
+	const WifiMngConfig &wifiConfig = getWifiConfig();
 	String clientId = "env-" + WiFi.macAddress();
 	bool mqttReady = false;
 	if (wifiConnected) {
-#if defined(MQTT_USER) && defined(MQTT_PASS)
-		mqttReady = mqttEnsureConnected(clientId.c_str(), MQTT_USER, MQTT_PASS);
-#else
-		mqttReady = mqttEnsureConnected(clientId.c_str());
-#endif
+		mqttReady = mqttEnsureConnected(clientId.c_str(), wifiConfig.mqttUser.c_str(),
+										 wifiConfig.mqttPass.c_str());
 	}
 	if (bsecInitFailed) {
 		updatePattern(ERR_SENSOR_INIT, 255, 0, 0);
@@ -138,13 +132,14 @@ void loop() {
 	static unsigned long lastPublish = 0;
 	if (lastPublish == 0 || now - lastPublish >= PUBLISH_INTERVAL_MS) {
 		lastPublish = now;
-		publishSensorData(buildMqttTopic(MQTT_TOPIC_PREFIX, STATION_ID, "measurements").c_str());
+		publishSensorData(buildMqttTopic(MQTT_TOPIC_PREFIX, wifiConfig.roomName.c_str(), "measurements").c_str());
 	}
 
 	static unsigned long lastHeartbeat = 0;
 	if (lastHeartbeat == 0 || now - lastHeartbeat >= HEARTBEAT_INTERVAL_MS) {
 		lastHeartbeat = now;
-		publishHeartbeat(buildMqttTopic(MQTT_TOPIC_PREFIX, STATION_ID, "heartbeat").c_str(), STATION_ID);
+		publishHeartbeat(buildMqttTopic(MQTT_TOPIC_PREFIX, wifiConfig.roomName.c_str(), "heartbeat").c_str(),
+						  wifiConfig.roomName.c_str());
 	}
 
 	static unsigned long lastBsecSave = 0;

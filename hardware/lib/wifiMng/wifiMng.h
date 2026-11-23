@@ -13,3 +13,8 @@ struct WifiMngConfig {
 void setupWifi();
 
 const WifiMngConfig &getWifiConfig();
+
+// Call every loop() iteration. On a triple click of the BOOT button within
+// a short window, wipes WiFi credentials + saved station config and
+// restarts into the setup portal.
+void handleResetButton();

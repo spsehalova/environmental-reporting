@@ -21,8 +21,12 @@ WORKDIR /app
 COPY server/package.json server/bun.lock ./server/
 COPY frontend/package.json frontend/bun.lock ./frontend/
 
-RUN cd server && bun install --frozen-lockfile \
- && cd ../frontend && bun install --frozen-lockfile
+# bun-plugin-tailwind declares a peerDependency on a package literally named
+# "bun", which bun's installer resolves as a real npm package (bundling a
+# duplicate ~100MB platform binary) rather than treating it as already
+# satisfied by the Bun runtime itself. Omit peers; nothing imports it.
+RUN cd server && bun install --frozen-lockfile --omit=peer
+RUN cd frontend && bun install --frozen-lockfile --omit=peer
 
 COPY server ./server
 COPY frontend ./frontend
